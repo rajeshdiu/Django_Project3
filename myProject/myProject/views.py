@@ -80,10 +80,13 @@ def myProfile(request):
     }
     return render(request, 'profile.html', context)
 
+from django.contrib.auth.hashers import check_password
+
 def profileUpdate(request):
     error_messages = {
         'success': 'Profile Update Successfully',
-        'error': 'Profile Not Updated'
+        'error': 'Profile Not Updated',
+        'password_error': 'Current password is incorrect',
     }
     
     if request.method == "POST":
@@ -93,9 +96,7 @@ def profileUpdate(request):
         password = request.POST.get("password")
         username = request.POST.get("username")
         email = request.POST.get("email")
-        print(profile_pic)
         
-        print(profile_pic,username,firstname,lastname,email,password)
         try:
             cuser = customUser.objects.get(id=request.user.id)
             
@@ -103,17 +104,23 @@ def profileUpdate(request):
             cuser.last_name = lastname
             cuser.profile_pic = profile_pic
             
-            if password is not None and password != "":
-                cuser.set_password(password)
-            if profile_pic is not None and profile_pic != "":
-                cuser.profile_pic = profile_pic
-            cuser.save()
-            auth_login(request, cuser)
-            messages.success(request, error_messages['success'])
-            return redirect("profileUpdate")
+            # Verify the current password provided matches the user's current password
+            if not cuser.check_password(password):
+                messages.error(request, error_messages['password_error'])
+            else:
+                # If the current password is correct, proceed to update other fields
+                if profile_pic is not None:
+                    cuser.profile_pic = profile_pic
+                
+                # You can add additional fields to update here as needed
+
+                cuser.save()
+                auth_login(request, cuser)
+                messages.success(request, error_messages['success'])
+                return redirect("profileUpdate")
         except:
             messages.error(request, error_messages['error'])
     
     return render(request, 'profile.html')
-    
+
 
