@@ -1,0 +1,145 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+       <div class="card">
+          <div class="card-body">
+             <form  action=" {% url 'addStudent' %} "  method="post" enctype="multipart/form-data">
+               {% csrf_token %}
+                <div class="row">
+                   <div class="col-12">
+                      <h5 class="form-title"><span>Add Student</span></h5>
+                   </div>
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                         <label>Full Name</label>
+                         <input name="fullname" type="text" class="form-control">
+                      </div>
+                   </div>
+                   <div class="col-12 col-sm-6">
+                     <div class="form-group">
+                        <label>username</label>
+                        <input name="username" type="text" class="form-control">
+                     </div>
+                  </div>
+
+                  <div class="col-12 col-sm-6">
+                     <div class="form-group">
+                        <label>Email</label>
+                        <input name="email" type="text" class="form-control">
+                     </div>
+                  </div>
+                  
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                         <label>Student Id</label>
+                         <input name="studentid"  type="text" class="form-control">
+                      </div>
+                   </div>
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                         <label>Gender</label>
+                         <select class="form-control" name="gender">
+                            <option>Select Gender</option>
+                            <option>Female</option>
+                            <option>Male</option>
+                            <option>Others</option>
+                         </select>
+                      </div>
+                   </div>
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                         <label>Date of Birth</label>
+                         <div>
+                            <input type="date" class="form-control">
+                         </div>
+                      </div>
+                   </div>
+                   <div class="col-12 col-sm-6">
+                     <div class="form-group"  >
+                        <label>Course</label>
+                        <select class="form-control" name="courseid">
+                           <option>Select Course</option>
+                           {% for c in course %}
+                           <option value="{{c.id}}"> {{c.name}} </option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                  </div>
+                   <div class="col-12 col-sm-6">
+                     <div class="form-group">
+                        <label>Religion</label>
+                        <select class="form-control" name="religion" >
+                           <option>Select Religion</option>
+                           <option>Islam</option>
+                           <option>Hindu</option>
+                           <option>Christian</option>
+                           <option>Buddist</option>
+                        </select>
+                     </div>
+                  </div>
+                   <div class="col-12 col-sm-6">
+                     <div class="form-group">
+                        <label>Session Year</label>
+                        <select class="form-control" name="sessionyearid">
+                           <option>Select Session</option>
+                           {% for s in session %}
+                           <option value="{{s.id}}"> {{s.sessionStart}} {{"-"}} {{s.sessionEnd}} </option>
+                           {% endfor %}
+                        </select>
+                     </div>
+                  </div>
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                         <label>Joining Date</label>
+                         <div>
+                            <input type="date" class="form-control">
+                         </div>
+                      </div>
+                   </div>
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group" >
+                         <label>Mobile Number</label>
+                         <input type="text" name="mobile" class="form-control">
+                      </div>
+                   </div>
+                  
+                   <div class="col-12 col-sm-6">
+                     <div class="form-group" >
+                        <label>Section</label>
+                        <select class="form-control" name="section">
+                           <option>Select Section</option>
+                           <option>A</option>
+                           <option>B</option>
+                           <option>C</option>
+                           <option>D</option>
+                        </select>
+                     </div>
+                  </div>
+                   <div class="col-12 col-sm-6">
+                      <div class="form-group">
+                         <label>Student Image</label>
+                         <input type="file" name="profile_pic" class="form-control">
+                      </div>
+                   </div>
+                   
+                   <div class="col-12 col-sm-6">
+                     <div class="form-group" >
+                        <label>Password</label>
+                        <input type="password" name="password" class="form-control">
+                     </div>
+                  </div>
+                   <div class="col-12">
+                      <button type="submit" class="btn btn-primary">Add Student</button>
+                   </div>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+ </div>
+    
+{% endblock  %}
+    

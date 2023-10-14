@@ -4,7 +4,7 @@
 
 <style>
 
-   .avatar{
+   .myavatar{
       width:200px;
       height:200px;
       }
@@ -46,16 +46,20 @@
                         <input name="email" type="text" class="form-control" value="{{user.email}}" readonly>
                      </div>
                   </div>
-                  <div class="col-md-3">
+                  <div class="col-md-4">
                      <div class="text-center">
-                       <img src="/{{user.profile_pic}}" class="avatar img-circle img-thumbnail" alt="avatar">
-                       <h6>Upload a different photo...</h6>
-                       
-                       <input type="file" name="profile_pic" class="form-control" value="/{{user.profile_pic}}">
+                       <img src="/{{user.profile_pic}}" class="myavatar img-circle img-thumbnail" alt="avatar">
+                       <h6> Name : {{user.first_name}} {{user.last_name}}</h6>
+                       <div class="form-group">
+                        <input type="file" name="profile_pic" class="form-control" value="/{{user.profile_pic}}">
+                     </div>
+   
                      </div>
                    </div>
+                   
                   <div class="col-12">
-                     <button type="submit" class="btn btn-primary">Update Profile</button>
+                     <button type="submit" class="btn btn-success">Update Profile</button>
+                     <button type="submit" class="btn btn-danger"><a href=" {% url 'changePassword' %} ">Change Password</a></button>
                      {% if messages %}
                      {% for message in messages %}
                      {% if message.tags == 'error' %}
@@ -83,3 +87,4 @@
    </div>
 </div>
 {% endblock %}
+

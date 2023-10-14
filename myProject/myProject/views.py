@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate,login,logout
 from django.contrib.auth.decorators import login_required
-from myApp.models import customUser
+from myApp.models import *
 from django.contrib import messages
 from myApp import EmailBackEnd
 from django.contrib.auth import login as auth_login
@@ -30,8 +30,9 @@ def signupPage(request):
     # messages.success(request, 'Signup successful.')
     return render(request, "signup.html")
 
-
-
+def logoutPage(request):
+    logout(request)
+    return redirect("loginPage")
 
 def loginPage(request):
     error_messages = {
@@ -124,3 +125,81 @@ def profileUpdate(request):
     return render(request, 'profile.html')
 
 
+# views.py
+
+def changePassword(request):
+    error_messages = {
+        'success': 'Changed Successfully',
+        'mismatch': 'New password and confirm password not matched',
+        'old_password': 'Old password not match',
+    }
+    
+    if request.method == "POST":
+        old_password = request.POST.get("oldPassword")
+        new_password = request.POST.get("newpassword")
+        confirm_password = request.POST.get("confirmPassword")
+        user = request.user
+        
+        if user.check_password(old_password):
+            if new_password == confirm_password:
+                user.set_password(new_password)
+                user.save()
+                messages.success(request, error_messages['success'])
+                return redirect("loginPage")
+            else:
+                messages.error(request, error_messages['mismatch'])
+        else:
+            messages.error(request, error_messages['old_password'])
+
+    return render(request, "changepassword.html")
+
+
+def addStudent(request):
+    
+    course=courseModel.objects.all()
+    session_year=sessionYear.objects.all()
+    
+    context={
+        "course":course,
+        "session":session_year
+    }
+    
+    if request.method == "POST":
+        profile_pic = request.FILES.get('profile_pic')
+        full_name = request.POST.get("fullname")
+        user_name = request.POST.get("username")
+        email = request.POST.get("email")
+        student_id = request.POST.get("studentid")
+        gender = request.POST.get("gender")
+        course_id = request.POST.get("courseid")
+        relgion = request.POST.get("religion")
+        session_year_id = request.POST.get("sessionyearid")
+        mobile = request.POST.get("mobile")
+        section = request.POST.get("section")
+        password = request.POST.get("password")
+        
+        print(profile_pic,full_name,user_name,email,student_id,gender,course_id,relgion,session_year_id,mobile,section,password)
+        if customUser.objects.filter(email=email).exists():
+            messages.warning(request,"Email is Already Exist")
+            return redirect("addStudent")
+        if customUser.objects.filter(username=user_name).exists():
+            messages.warning(request,"username is Already Exist")
+            return redirect("addStudent")
+        else:
+            user=customUser(
+                profile_pic=profile_pic,
+                full_name=full_name,
+                user_name=user_name,
+                email=email,
+                student_id=student_id,
+                
+                
+            )
+        
+    
+    return render(request,"myAdmin/addStudent.html",context)
+
+
+def studentList(request):
+    
+    return render(request,"myAdmin/studentlist.html")
