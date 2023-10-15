@@ -12,16 +12,17 @@
                    <div class="col-12">
                       <h5 class="form-title"><span>Add Student</span></h5>
                    </div>
+
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
-                         <label>Full Name</label>
-                         <input name="fullname" type="text" class="form-control">
+                         <label>First Name</label>
+                         <input name="first_name" type="text" class="form-control">
                       </div>
                    </div>
                    <div class="col-12 col-sm-6">
                      <div class="form-group">
-                        <label>username</label>
-                        <input name="username" type="text" class="form-control">
+                        <label>Last Name</label>
+                        <input name="last_name" type="text" class="form-control">
                      </div>
                   </div>
 
@@ -34,10 +35,22 @@
                   
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
-                         <label>Student Id</label>
-                         <input name="studentid"  type="text" class="form-control">
+                         <label>Username</label>
+                         <input name="username"  type="text" class="form-control">
                       </div>
                    </div>
+                   <div class="col-11 col-sm-6">
+                     <div class="form-group">
+                        <label>Password</label>
+                        <input name="password"  type="password" class="form-control">
+                     </div>
+                  </div>
+                  <div class="col-12 col-sm-6">
+                     <div class="form-group">
+                        <label>Address</label>
+                        <textarea name="address"  type="text" class="form-control"></textarea>
+                     </div>
+                  </div>
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
                          <label>Gender</label>
@@ -49,14 +62,7 @@
                          </select>
                       </div>
                    </div>
-                   <div class="col-12 col-sm-6">
-                      <div class="form-group">
-                         <label>Date of Birth</label>
-                         <div>
-                            <input type="date" class="form-control">
-                         </div>
-                      </div>
-                   </div>
+                  
                    <div class="col-12 col-sm-6">
                      <div class="form-group"  >
                         <label>Course</label>
@@ -68,18 +74,7 @@
                         </select>
                      </div>
                   </div>
-                   <div class="col-12 col-sm-6">
-                     <div class="form-group">
-                        <label>Religion</label>
-                        <select class="form-control" name="religion" >
-                           <option>Select Religion</option>
-                           <option>Islam</option>
-                           <option>Hindu</option>
-                           <option>Christian</option>
-                           <option>Buddist</option>
-                        </select>
-                     </div>
-                  </div>
+                
                    <div class="col-12 col-sm-6">
                      <div class="form-group">
                         <label>Session Year</label>
@@ -91,33 +86,7 @@
                         </select>
                      </div>
                   </div>
-                   <div class="col-12 col-sm-6">
-                      <div class="form-group">
-                         <label>Joining Date</label>
-                         <div>
-                            <input type="date" class="form-control">
-                         </div>
-                      </div>
-                   </div>
-                   <div class="col-12 col-sm-6">
-                      <div class="form-group" >
-                         <label>Mobile Number</label>
-                         <input type="text" name="mobile" class="form-control">
-                      </div>
-                   </div>
-                  
-                   <div class="col-12 col-sm-6">
-                     <div class="form-group" >
-                        <label>Section</label>
-                        <select class="form-control" name="section">
-                           <option>Select Section</option>
-                           <option>A</option>
-                           <option>B</option>
-                           <option>C</option>
-                           <option>D</option>
-                        </select>
-                     </div>
-                  </div>
+                
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
                          <label>Student Image</label>
@@ -125,15 +94,12 @@
                       </div>
                    </div>
                    
-                   <div class="col-12 col-sm-6">
-                     <div class="form-group" >
-                        <label>Password</label>
-                        <input type="password" name="password" class="form-control">
-                     </div>
-                  </div>
                    <div class="col-12">
                       <button type="submit" class="btn btn-primary">Add Student</button>
                    </div>
+                   <div class="col-12">
+                     {% include 'includes/message.html' %}
+                  </div>
                 </div>
              </form>
           </div>

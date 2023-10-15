@@ -7,7 +7,7 @@ from django.contrib.auth import views as auth_views
 from myProject import views 
 
 urlpatterns = [
-    path('admin/', admin.site.urls), 
+    path('admin', admin.site.urls), 
     path('', views.signupPage,name="signupPage"), 
     path('loginPage', views.loginPage,name="loginPage"), 
     path('myAdmin/home', views.adminPage,name="adminPage"), 
@@ -17,6 +17,11 @@ urlpatterns = [
     path('profile/logoutPage', views.logoutPage,name="logoutPage"), 
     path('myAdmin/Student/addStudent', views.addStudent,name="addStudent"), 
     path('myAdmin/Student/studentList', views.studentList,name="studentList"), 
+    path('myAdmin/Student/editStudent/<str:id>', views.editStudent,name="editStudent"), 
+    path('myAdmin/Teacher', views.addTeacher,name="addTeacher"), 
+    path('myAdmin/Teacher/teacherList', views.teacherList,name="teacherList"), 
+    path('myAdmin/Teacher/editTeacher/<int:id>', views.editTeacher,name="editTeacher"), 
+
     
 
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

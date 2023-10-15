@@ -10,5 +10,6 @@ class userModel(UserAdmin):
 admin.site.register(customUser,userModel)
 
 admin.site.register(courseModel)
-admin.site.register(sessionYear)
+admin.site.register(sessionYearModel)
 admin.site.register(studentModel)
+admin.site.register(teacherModel)
