@@ -20,7 +20,8 @@ urlpatterns = [
     path('myAdmin/Student/editStudent/<str:id>', views.editStudent,name="editStudent"), 
     path('myAdmin/Teacher', views.addTeacher,name="addTeacher"), 
     path('myAdmin/Teacher/teacherList', views.teacherList,name="teacherList"), 
-    path('myAdmin/Teacher/editTeacher/<int:id>', views.editTeacher,name="editTeacher"), 
+    path('myAdmin/Teacher/editTeacher/<str:id>', views.editTeacher, name="editTeacher")
+
 
     
 

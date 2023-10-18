@@ -1,54 +1,55 @@
 {% extends 'base.html' %}
 
-
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
        <div class="card">
           <div class="card-body">
-             <form  action=" {% url 'editTeacher' %} "  method="post" enctype="multipart/form-data">
+
+            {% for t in  teacher%}
+             <form  action=" {% url 'addTeacher' %} "  method="post" enctype="multipart/form-data">
                {% csrf_token %}
                 <div class="row">
                    <div class="col-12">
-                      <h5 class="form-title"><span>UPdate Teacher</span></h5>
+                      <h5 class="form-title"><span>Update Teacher</span></h5>
                    </div>
 
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
                          <label>First Name</label>
-                         <input value="{% for s in  student%}{{s.admin.first_name}} {% endfor %}"name="first_name" type="text" class="form-control">
+                         <input  value="{% for t in  teacher%}{{t.admin.first_name}} {% endfor %}"  name="first_name" type="text" class="form-control">
                       </div>
                    </div>
                    <div class="col-12 col-sm-6">
                      <div class="form-group">
                         <label>Last Name</label>
-                        <input value="{% for s in  student%}{{s.admin.last_name}}{% endfor %} "name="last_name" type="text" class="form-control">
+                        <input  value="{% for t in  teacher%}{{t.admin.last_name}} {% endfor %}" name="last_name" type="text" class="form-control">
                      </div>
                   </div>
 
                   <div class="col-12 col-sm-6">
                      <div class="form-group">
                         <label>Email</label>
-                        <input value="{% for s in  student%}{{s.admin.email}}{% endfor %}" name="email" type="text" class="form-control">
+                        <input value= {{t.admin.email}}  name="email" type="text" class="form-control">
                      </div>
                   </div>
                   
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
                          <label>Username</label>
-                         <input value="{% for s in  student%}{{s.admin.username}}{% endfor %} "name="username"  type="text" class="form-control">
+                         <input value= {{t.admin.username}} name="username"  type="text" class="form-control">
                       </div>
                    </div>
                    <div class="col-11 col-sm-6">
                      <div class="form-group">
                         <label>Password</label>
-                        <input name="password"  type="password" class="form-control">
+                        <input  name="password"  type="password" class="form-control">
                      </div>
                   </div>
                   <div class="col-12 col-sm-6">
                      <div class="form-group">
                         <label>Address</label>
-                        <textarea name="address"  type="text" class="form-control">{% for s in  student%} {{s.address}} {% endfor %}</textarea>
+                        <textarea name="address"  type="text" class="form-control">{{t.address}}</textarea>
                      </div>
                   </div>
                    <div class="col-12 col-sm-6">
@@ -75,33 +76,35 @@
                      </div>
                   </div>
                 
-                   <div class="col-12 col-sm-6">
-                     <div class="form-group">
-                        <label>Session Year</label>
-                        <select class="form-control" name="sessionyearid">
-                           <option>Select Session</option>
-                           {% for s in session %}
-                           <option value="{{s.id}}"> {{s.sessionStart}} {{"-"}} {{s.sessionEnd}} </option>
-                           {% endfor %}
-                        </select>
-                     </div>
-                  </div>
+                  <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                       <label>Mobile</label>
+                       <input value={{t.mobile}} name="mobile"  type="text" class="form-control">
+                    </div>
+                 </div>
+                 <div class="col-12 col-sm-6">
+                    <div class="form-group">
+                       <label>Experience</label>
+                       <input value={{t.experience}} name="experience"  type="text" class="form-control">
+                    </div>
+                 </div>
                 
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
-                         <label>Student Image</label>
+                         <label>Teacher Image</label>
                          <input type="file" name="profile_pic" class="form-control">
                       </div>
                    </div>
                    
                    <div class="col-12">
-                      <button type="submit" class="btn btn-primary">Update Student</button>
+                      <button type="submit" class="btn btn-primary">Update Teacher</button>
                    </div>
                    <div class="col-12">
                      {% include 'includes/message.html' %}
                   </div>
                 </div>
              </form>
+             {% endfor %}
           </div>
        </div>
     </div>
