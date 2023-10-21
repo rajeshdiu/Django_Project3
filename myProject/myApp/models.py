@@ -73,5 +73,13 @@ class teacherModel(models.Model):
     
 
 
+class subjectModel(models.Model):
+    name=models.CharField(max_length=100)
+    course=models.ForeignKey(courseModel,on_delete=models.CASCADE)
+    teacher=models.ForeignKey(teacherModel,on_delete=models.CASCADE)
+    cratedat = models.DateTimeField(auto_now_add=True)  # Set the default value using timezone.now
+    updateat = models.DateTimeField(auto_now=True)
 
+    def __str__(self):
+        return self.name
     

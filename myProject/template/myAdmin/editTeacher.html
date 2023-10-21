@@ -6,9 +6,10 @@
        <div class="card">
           <div class="card-body">
 
-            {% for t in  teacher%}
-             <form  action=" {% url 'addTeacher' %} "  method="post" enctype="multipart/form-data">
+             <form  action=" {% url 'updateTeacher' %} "  method="post" enctype="multipart/form-data">
                {% csrf_token %}
+               
+            {% for t in  teacher%}
                 <div class="row">
                    <div class="col-12">
                       <h5 class="form-title"><span>Update Teacher</span></h5>
@@ -16,14 +17,16 @@
 
                    <div class="col-12 col-sm-6">
                       <div class="form-group">
-                         <label>First Name</label>
-                         <input  value="{% for t in  teacher%}{{t.admin.first_name}} {% endfor %}"  name="first_name" type="text" class="form-control">
+                         <label>First Name</label>  
+                         <input value="{{t.admin.id}}" name="teacher_id" type="text" class="form-control" hidden>
+                       
+                         <input  value="{{t.admin.first_name}}"  name="first_name" type="text" class="form-control">
                       </div>
                    </div>
                    <div class="col-12 col-sm-6">
                      <div class="form-group">
                         <label>Last Name</label>
-                        <input  value="{% for t in  teacher%}{{t.admin.last_name}} {% endfor %}" name="last_name" type="text" class="form-control">
+                        <input  value="{{t.admin.last_name}} " name="last_name" type="text" class="form-control">
                      </div>
                   </div>
 
@@ -103,8 +106,8 @@
                      {% include 'includes/message.html' %}
                   </div>
                 </div>
+                {% endfor %}
              </form>
-             {% endfor %}
           </div>
        </div>
     </div>

@@ -71,7 +71,24 @@ def loginPage(request):
 
 def adminPage(request):
     
-    return render(request,"myAdmin/adminhome.html")
+    studentCount= studentModel.objects.all().count()
+    teacherCount= teacherModel.objects.all().count()
+    departmentCount= courseModel.objects.all().count()
+    subjectCount= subjectModel.objects.all().count()
+    
+    student_male_count=studentModel.objects.filter(gender="Male").count()
+    student_female_count=studentModel.objects.filter(gender="Female").count()
+    
+    context={
+        "studentCount":studentCount,
+        "teacherCount":teacherCount,
+        "departmentCount":departmentCount,
+        "subjectCount":subjectCount,
+        "student_male_count":student_male_count,
+        "student_female_count":student_female_count,
+        }
+    
+    return render(request,"myAdmin/adminhome.html",context)
 
 
 def myProfile(request):
@@ -238,6 +255,55 @@ def editStudent(request,id):
     
     return render(request,"myAdmin/editStudent.html",context)
 
+def updateStudent(request):
+    error_messages = {
+        'success': 'Student Updated Successfully',
+        'error': 'Student Updated Failed',
+    }
+    if request.method == "POST":
+        profile_pic = request.FILES.get('profile_pic')
+        student_id = request.POST.get("student_id")
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        username = request.POST.get("username")  # Changed from 'user_name' to 'username'
+        password = request.POST.get("password")
+        address = request.POST.get("address")
+        gender = request.POST.get("gender")
+        course_id = request.POST.get("courseid")
+        session_year_id = request.POST.get("sessionyearid")
+        
+        user=customUser.objects.get(id=student_id)
+        
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email=email
+        user.username=username
+        
+        if password is not None and password!="":
+            user.set_password(password)
+        if password is not None and profile_pic!="":
+            user.profile_pic=profile_pic
+        user.save()
+        
+        student=studentModel.objects.get(admin=student_id)
+        student.address=address
+        student.gender=gender
+        
+        course=courseModel.objects.get(id=course_id)
+        student.course_id=course
+        
+        session=sessionYearModel.objects.get(id=session_year_id)
+        student.session_year_id=session
+        
+        student.save()
+        
+        
+        messages.success(request, error_messages['success'])
+        return redirect("studentList")
+    
+    return render(request,"myAdmin/editStudent.html")
+
 def addTeacher(request):
     error_messages = {
         'success': 'Teacher Add Successfully',
@@ -319,3 +385,208 @@ def editTeacher(request,id):
     }
     
     return render(request,"myAdmin/editTeacher.html",context)
+
+
+def updateTeacher(request):
+    
+    error_messages = {
+        'success': 'Teacher Updated Successfully',
+        'error': 'Teacher update Failed',
+    }
+    if request.method == "POST":
+        teacher_id = request.POST.get("teacher_id")
+        profile_pic = request.FILES.get('profile_pic')
+        first_name = request.POST.get("first_name")
+        last_name = request.POST.get("last_name")
+        email = request.POST.get("email")
+        username = request.POST.get("username") 
+        password = request.POST.get("password")
+        address = request.POST.get("address")
+        gender = request.POST.get("gender")
+        course_id = request.POST.get("courseid")
+        mobile = request.POST.get("mobile")
+        experience = request.POST.get("experience")
+        
+        user=customUser.objects.get(id=teacher_id)
+        
+        user.first_name = first_name
+        user.last_name = last_name
+        user.email=email
+        user.username=username
+        
+        
+        if password is not None and password!="":
+            user.set_password(password)
+        if password is not None and profile_pic!="":
+            user.profile_pic=profile_pic
+        user.save()
+        
+        teacher=teacherModel.objects.get(admin=teacher_id)
+        
+        teacher.address=address
+        teacher.gender=gender
+        teacher.mobile=mobile
+        teacher.experience=experience
+        
+        course=courseModel.objects.get(id=course_id)
+        teacher.course_id=course
+        
+        teacher.save()
+        
+        
+        messages.success(request, error_messages['success'])
+        return redirect("teacherList")
+    return render(request,"myAdmin/editTeacher.html")
+    
+    
+def addDepartment(request):
+    
+    error_messages = {
+        'success': 'Department Add Successfully',
+        'department_exist_error': 'Department already exist',
+    }
+    if request.method == "POST":
+        department_name = request.POST.get("department_name")
+        
+        print(department_name)
+        
+        if courseModel.objects.filter(name=department_name):
+            messages.error(request, error_messages['department_exist_error'])
+        else:
+            
+            course=courseModel(
+                
+                name=department_name,
+                
+            )
+            
+            course.save()
+            messages.success(request, error_messages['success'])
+            
+            return redirect("departmentList")
+       
+    
+    
+    return render(request,"myAdmin/addDepartment.html")
+
+def departmentList(request):
+    
+    department = courseModel.objects.all()
+    context = {
+        "department": department,
+    }
+    
+    return render(request,"myAdmin/departmentList.html",context)
+
+
+def editDepartment(request,id):
+    
+    course = courseModel.objects.get(id=id)
+    context = {
+        "course": course,
+    }
+    
+    return render(request,"myAdmin/editDepartment.html",context)
+
+
+def updateDepartment(request):
+
+    error_messages = {
+        'success': 'Department Updated Successfully',
+        'error': 'Department Update Failed',
+    }
+    if request.method == "POST":
+        department_id = request.POST.get("department_id")
+        department_name = request.POST.get("department_name")
+        
+        print(department_id,department_name)
+        
+        course=courseModel.objects.get(id=department_id)
+        
+        course.name= department_name
+        
+        course.save()
+        
+        
+        messages.success(request, error_messages['success'])
+        return redirect("departmentList")
+    else:
+        messages.error(request, error_messages['error'])
+        
+        return redirect("editDepartment")
+    
+    return render(request,"myAdmin/editDepartment.html")
+   
+
+
+def addSubject(request):
+    
+    course=courseModel.objects.all()
+    teacher=teacherModel.objects.all()
+    
+    
+    error_messages = {
+        'success': 'Subject Add Successfully',
+        'subjecterror': 'Subject already exist',
+    }
+    if request.method == "POST":
+        course_id = request.POST.get("course_id")
+        teacher_id = request.POST.get("teacher_id")
+        subject_name = request.POST.get("subject_name")
+        myClass= request.POST.get("myClass")
+        
+        courseid=courseModel.objects.get(id=course_id)
+        teacherid=teacherModel.objects.get(id=teacher_id)
+    
+        subject=subjectModel(
+        
+        name=subject_name,
+        course=courseid,
+        teacher=teacherid,
+        )
+        
+        
+    
+        subject.save()
+ 
+        messages.success(request, error_messages['success'])
+
+        return redirect("subjectList")
+    
+    context={
+        "course":course,
+        "teacher":teacher,
+        }    
+    
+
+    return render(request,"myAdmin/addSubject.html",context)
+
+
+
+def subjectList(request):
+    
+    subject = subjectModel.objects.all()
+    context = {
+        "subject": subject,
+    }
+    
+   
+    return render(request,"myAdmin/subjectList.html",context)
+
+
+
+def editSubject(request,id):
+    
+    
+    
+    
+    return render(request,"myAdmin/subjectList.html")
+
+
+
+def updateSubject(request):
+    
+    
+    
+    
+    return render(request,"myAdmin/editSubject.html")

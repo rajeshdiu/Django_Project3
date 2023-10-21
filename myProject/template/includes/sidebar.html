@@ -1,4 +1,6 @@
-{% load static %}
+
+{% load active_link_tags %}
+
 
 <div class="sidebar" id="sidebar">
    <div class="sidebar-inner slimscroll">
@@ -8,42 +10,36 @@
                <span>Main Menu</span>
             </li>
 
-            <li>
+            <li  class=" {% active_link 'adminPage' 'active' %} ">
                <a href=" {% url 'adminPage' %} "><i class="fas fa-holly-berry"></i> <span>Dashboard</span></a>
             </li>
             
-            <li class="submenu">
+            <li class="submenu  {% active_link 'studentList' 'active' %}  {% active_link 'addStudent' 'active' %} ">
                <a href="#"><i class="fas fa-user-graduate"></i> <span> Students</span> <span class="menu-arrow"></span></a>
                <ul>
                   <li><a href=" {% url 'studentList' %} ">Student List</a></li>
-                  <li><a href="student-details.html">Student View</a></li>
                   <li><a href=" {% url 'addStudent' %} ">Student Add</a></li>
-                  <li><a href="  ">Student Edit</a></li>
                </ul>
             </li>
-            <li class="submenu">
+            <li class="submenu {% active_link 'teacherList' 'active' %}  {% active_link 'addTeacher' 'active' %} ">
                <a href="#"><i class="fas fa-chalkboard-teacher"></i> <span> Teachers</span> <span class="menu-arrow"></span></a>
                <ul>
                   <li><a href=" {% url 'teacherList' %} ">Teacher List</a></li>
-                  <li><a href="teacher-details.html">Teacher View</a></li>
                   <li><a href=" {% url 'addTeacher' %} ">Teacher Add</a></li>
-                  <li><a href="edit-teacher.html">Teacher Edit</a></li>
                </ul>
             </li>
-            <li class="submenu">
+            <li class="submenu {% active_link 'departmentList' 'active' %}  {% active_link 'addDepartment' 'active' %} ">
                <a href="#"><i class="fas fa-building"></i> <span> Departments</span> <span class="menu-arrow"></span></a>
                <ul>
-                  <li><a href="departments.html">Department List</a></li>
-                  <li><a href="add-department.html">Department Add</a></li>
-                  <li><a href="edit-department.html">Department Edit</a></li>
+                  <li><a href=" {% url 'departmentList' %} ">Department List</a></li>
+                  <li><a href=" {% url 'addDepartment' %} ">Department Add</a></li>
                </ul>
             </li>
-            <li class="submenu">
+            <li class="submenu  {% active_link 'subjectList' 'active' %}  {% active_link 'addSubject' 'active' %} ">
                <a href="#"><i class="fas fa-book-reader"></i> <span> Subjects</span> <span class="menu-arrow"></span></a>
                <ul>
-                  <li><a href="subjects.html">Subject List</a></li>
-                  <li><a href="add-subject.html">Subject Add</a></li>
-                  <li><a href="edit-subject.html">Subject Edit</a></li>
+                  <li><a href=" {% url 'subjectList' %} ">Subject List</a></li>
+                  <li><a href=" {% url 'addSubject' %} ">Subject Add</a></li>
                </ul>
             </li>
            
