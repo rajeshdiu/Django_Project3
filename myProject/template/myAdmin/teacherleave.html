@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="content container-fluid">
+    <div class="page-header">
+       <div class="row align-items-center">
+          <div class="col">
+             <h3 class="page-title">Apply For Leave</h3>
+             <ul class="breadcrumb">
+                <li class="breadcrumb-item"><a href="index.html">Dashboard</a></li>
+                <li class="breadcrumb-item active">Leave</li>
+             </ul>
+          </div>
+          <div class="col-auto text-right float-right ml-auto">
+                            <!-- Button trigger modal -->
+                <button type="button" class="btn btn-primary" data-toggle="modal" data-target=".bd-example-modal-lg">
+                    Leave Apply History
+                </button>
+  
+          </div>
+       </div>
+    </div>
+<div class="row">
+    <div class="col-sm-12">
+       <div class="card">
+          <div class="card-body">
+             <form  action=" {% url 'teacherleavePage' %} "  method="post" enctype="multipart/form-data">
+               {% csrf_token %}
+                <div class="row">
+                   <div class="col-12">
+                      <h5 class="form-title"><span>Apply For Leave</span></h5>
+                   </div>
+
+                   <div class="col-12 col-sm-8">
+                    <div class="form-group">
+                       <label><b>Leave Date</b></label>
+                       <input name="department_name" type="date" class="form-control">
+                    </div>
+                 </div>
+                 
+                
+                 <div class="col-12 col-sm-8">
+                    <div class="form-group">
+                       <label>Leave Message</label>
+                       <textarea name="address" style="height: 200px;"  type="text" class="form-control"></textarea>
+                    </div>
+                 </div>
+
+                   
+                   <div class="col-12">
+                      <button type="submit" class="btn btn-primary">Apply Leave</button>
+                   </div>
+                   <div class="col-12">
+                     {% include 'includes/message.html' %}
+                  </div>
+                </div>
+             </form>
+          </div>
+       </div>
+    </div>
+ </div>
+
+
+<div class="modal fade bd-example-modal-lg" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+
+        <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Apply For Leave</h5>
+        </div>
+
+        <div class="row">
+            <div class="col-sm-12">
+               <div class="card card-table">
+                  <div class="card-body">
+                     <div class="table-responsive">
+                        <table id="table_id" class="table table-hover table-center mb-0">
+                           <thead>
+                              <tr>
+                                <th>Subject ID</th>
+                                <th>Subject Name</th>
+                                 <th>Course Name</th>
+                                 <th class="text-right">Action</th>
+                              </tr>
+                           </thead>
+                           <tbody>
+                             
+                             {% for s in  subject %}
+                               
+                             <tr>
+                                 <td>{{s.id}}</td>
+                              
+                                 <td>{{s.name}}</td>
+                                 <td>{{s.course}}</td>
+                                 <td class="text-right">
+                                    <div class="actions">
+                                       <a href=" {% url 'editSubject' s.id %}  " class="btn btn-sm bg-success-light mr-2">
+                                       <i class="fas fa-pen"></i>
+                                       </a>
+                                       <a href="#" class="btn btn-sm bg-danger-light">
+                                       <i class="fas fa-trash"></i>
+                                       </a>
+                                    </div>
+                                 </td>
+                              </tr>   
+                              {% endfor %} 
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+  </div>
+</div>
+
+    
+{% endblock  %}
+    

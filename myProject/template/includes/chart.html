@@ -7,7 +7,8 @@
         var options = {
             series: [{{studentCount}}, {{teacherCount}}, {{departmentCount}}, {{subjectCount}}],
             chart: {
-            width: 380,
+                height: 350,
+                width: '100%',
             type: 'pie',
           },
           labels: ['Student', 'Teacher', 'Department', 'Subject'],
@@ -99,6 +100,33 @@
         var chartBar = new ApexCharts(document.querySelector('#Student_bar'), optionsBar);
         chartBar.render();
         }
+
+
+
+
+          
+        var options = {
+            series: [{{studentCount}}, {{teacherCount}}],
+            chart: {
+            type: 'donut',
+          },
+          labels: ['Student', 'Teacher'],
+          responsive: [{
+            breakpoint: 480,
+            options: {
+              chart: {
+                width: 200
+              },
+              legend: {
+                position: 'bottom'
+              }
+            }
+          }]
+          };
+  
+          var chart = new ApexCharts(document.querySelector("#Student_teacher_allDetails"), options);
+          chart.render();
+        
       
     });
 

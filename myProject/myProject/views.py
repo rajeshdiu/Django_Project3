@@ -58,9 +58,9 @@ def loginPage(request):
                 if user_type == '1':
                     return redirect("adminPage")
                 elif user_type == '2':
-                    return render(request, "Staff/staffhome.html")
+                    return redirect("staffPage")
                 elif user_type == '3':
-                    return render(request, "Students/Stustudenthome.html")
+                    return redirect("studentPage")
                 else:
                     return redirect("signupPage")
             else:
@@ -68,6 +68,18 @@ def loginPage(request):
 
     return render(request, "login.html")
 
+
+def staffPage(request):
+    
+
+    return render(request,"Staff/teacherHome.html")
+
+
+
+def studentPage(request):
+    
+
+    return render(request,"Students/Stustudenthome.html")
 
 def adminPage(request):
     
@@ -356,7 +368,7 @@ def addTeacher(request):
             teacher.save()
 
             messages.success(request, error_messages['success'])
-            return redirect("addTeacher")
+            return redirect("teacherList")
 
     # Fetch the course and session year data to display in the form
     course = courseModel.objects.all()
@@ -533,8 +545,7 @@ def addSubject(request):
         course_id = request.POST.get("course_id")
         teacher_id = request.POST.get("teacher_id")
         subject_name = request.POST.get("subject_name")
-        myClass= request.POST.get("myClass")
-        
+       
         courseid=courseModel.objects.get(id=course_id)
         teacherid=teacherModel.objects.get(id=teacher_id)
     
@@ -577,16 +588,167 @@ def subjectList(request):
 
 def editSubject(request,id):
     
+    subject=subjectModel.objects.filter(id=id)
+    course=courseModel.objects.all()
+    teacher=teacherModel.objects.all()
     
     
+    context={
+        
+        "subject":subject,
+        "course":course,
+        "teacher":teacher,
+    }
     
-    return render(request,"myAdmin/subjectList.html")
+    
+    return render(request,"myAdmin/editSubject.html",context)
 
 
 
 def updateSubject(request):
     
+    error_messages = {
+        'success': 'Subject Update Successfully',
+        'subjecterror': 'Subject Update Failed',
+    }
+    if request.method == "POST":
+        subject_id = request.POST.get("subject_id")
+        course_id = request.POST.get("course_id")
+        teacher_id = request.POST.get("teacher_id")
+        subject_name = request.POST.get("subject_name")
+       
+        courseid=courseModel.objects.get(id=course_id)
+        teacherid=teacherModel.objects.get(id=teacher_id)
     
-    
+        subject=subjectModel(
+        id=subject_id,
+        name=subject_name,
+        course=courseid,
+        teacher=teacherid,
+        )
+        
+        subject.save()
+ 
+        messages.success(request, error_messages['success'])
+
+        return redirect("subjectList")
     
     return render(request,"myAdmin/editSubject.html")
+
+
+def addSession(request):
+    error_messages = {
+        'success': 'Session Add Successfully',
+        'sessionError': 'Session Add Failed',
+    }
+    if request.method == "POST":
+        session_start = request.POST.get("session_start")
+        session_end = request.POST.get("session_end")
+        
+        session=sessionYearModel(
+            sessionStart=session_start,
+            sessionEnd=session_end,
+        )
+        
+        session.save()
+        messages.success(request, error_messages['success'])
+        return redirect("sessionList")
+    
+    return render(request,"myAdmin/addSession.html")
+
+
+def sessionList(request):
+    session=sessionYearModel.objects.all()
+    context={
+        
+        "session":session,
+    }
+    return render(request,"myAdmin/sessionList.html",context)
+
+
+
+def editSession(request,id):
+    session=sessionYearModel.objects.filter(id=id)
+    
+    context={
+        
+        "session":session,
+    }
+    
+    return render(request,"myAdmin/editSession.html",context)
+
+
+def updateSession(request):
+    error_messages = {
+        'success': 'Session Updated Successfully',
+        'error': 'Session Update Failed',
+    }
+    if request.method == "POST":
+        session_id = request.POST.get("session_id")
+        session_start = request.POST.get("session_start")
+        session_end = request.POST.get("session_end")
+        session=sessionYearModel.objects.get(id=session_id)
+        session.sessionStart= session_start
+        session.sessionEnd=session_end
+        session.save()
+        messages.success(request, error_messages['success'])
+        return redirect("sessionList")
+    else:
+        messages.error(request, error_messages['error'])
+        
+        return redirect("editSession")
+
+
+
+def SentTeacherNotification(request):
+    
+    teacher=teacherModel.objects.all()
+    see_notification=staffNotificationModel.objects.all().order_by("-id")[0:5]
+    
+    context={
+        "teacher":teacher,
+        "see_notification":see_notification,
+    }
+    
+    return render(request,"myAdmin/SentTeacherNotification.html",context)
+
+
+def saveTeacherNotification(request):
+    error_messages = {
+        'success': 'Notification Sent Successfully',
+        'error': 'Notification Sent Failed',
+    }
+    if request.method == "POST":
+        message = request.POST.get("message")
+        teacher_id = request.POST.get("teacher_id")
+        
+        teacher=teacherModel.objects.get(admin=teacher_id)
+        
+        notification=staffNotificationModel(
+            
+            staff_id=teacher,
+            message=message,
+        )
+        notification.save()
+        
+        messages.success(request, error_messages['success'])
+        
+        return redirect("SentTeacherNotification")
+    else:
+        messages.success(request, error_messages['error'])
+        
+ 
+ 
+ #Teacher Or Staff Leave
+ 
+ 
+def teacherleavePage(request):
+    
+    return render(request,"myAdmin/teacherleave.html")
+
+ 
+ 
+ 
+#Teacher or Staff Panel
+
+

@@ -26,7 +26,7 @@ class sessionYearModel(models.Model):
     sessionStart=models.CharField(max_length=100)
     sessionEnd=models.CharField(max_length=100)
     def __str__(self):
-        return self.sessionStart + " - " + self.sessionEnd
+        return self.sessionStart + "/" + self.sessionEnd
   
 class studentModel(models.Model):
     admin = models.OneToOneField(customUser, on_delete=models.CASCADE)
@@ -77,9 +77,31 @@ class subjectModel(models.Model):
     name=models.CharField(max_length=100)
     course=models.ForeignKey(courseModel,on_delete=models.CASCADE)
     teacher=models.ForeignKey(teacherModel,on_delete=models.CASCADE)
-    cratedat = models.DateTimeField(auto_now_add=True)  # Set the default value using timezone.now
+    cratedat = models.DateTimeField(auto_now_add=True, null=True)  # Set the default value using timezone.now
     updateat = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         return self.name
     
+class staffNotificationModel(models.Model):
+    staff_id=models.ForeignKey(teacherModel,on_delete=models.CASCADE)
+    message= models.TextField()
+    createAt= models.DateTimeField(auto_now_add=True)
+    status=models.IntegerField(null=True,default=0)
+    
+    
+    def __str__(self):
+        return self.staff_id.admin.first_name
+    
+    
+class teacherLeaveModel(models.Model):
+    
+    staff_id=models.ForeignKey(teacherModel,on_delete=models.CASCADE)
+    data= models.CharField(max_length=100)
+    message= models.TextField()
+    status=models.IntegerField(default=0)
+    createAt= models.DateTimeField(auto_now_add=True)
+    updateat = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return self.staff_id.admin.first_name + self.staff_id.admin.last_name
